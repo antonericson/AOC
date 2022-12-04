@@ -16,7 +16,7 @@ def main():
         st2 = time.time()
         solve_two(input)
         et2 = time.time()
-        print(f'Part one solved in: {print_time(st2, et2)}')
+        print(f'Part two solved in: {print_time(st2, et2)}')
 
 def solve_one(input):
 
