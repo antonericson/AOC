@@ -1,4 +1,6 @@
 import time
+import numpy as np
+import matplotlib.pyplot as plt
 
 def main():
     with open("input.txt", "r") as file:
@@ -20,7 +22,7 @@ def solve_one(input):
         trees.append([])
         for tree in row:
             trees[y].append(int(tree))
-    
+    plotTrees = trees
     minY = 0
     minX = 0
     maxY = len(trees)-1
@@ -60,9 +62,18 @@ def solve_one(input):
                     visibleUp = False
                     break;
             if visibleUp or visibleDown or visibleLeft or visibleRight:
+                plotTrees[y][x] = 10
                 treesVisible += 1
                 
     treesVisible += (len(trees)*2) + (len(trees[0]*2)) - 4
+
+    H = np.array(plotTrees)
+    fig = plt.figure(3)
+    plt.imshow(H, interpolation='bicubic')
+    plt.colorbar(orientation='vertical')
+    plt.savefig('tree_map_part_1.png')
+    plt.close()
+    
     
     print(f'Part one: {treesVisible}')
     return # Return nothing, print results before this
@@ -74,7 +85,7 @@ def solve_two(input):
         trees.append([])
         for tree in row:
             trees[y].append(int(tree))
-    
+    plotTrees = trees
     minY = 0
     minX = 0
     maxY = len(trees)-1
@@ -115,8 +126,16 @@ def solve_two(input):
                 if trees[yToCheck][x] >= tree:
                     break;
             scenicScore = viewDown * viewUp * viewLeft * viewRight
+            plotTrees[y][x] = viewDown * viewUp * viewLeft * viewRight
             if scenicScore > maxScenicScore:
                 maxScenicScore = scenicScore
+
+        H = np.array(plotTrees)
+        fig = plt.figure(figsize=(5, 5), frameon=False)
+        plt.imshow(H)
+        plt.colorbar(orientation='vertical')
+        plt.savefig('tree_map_part_2.png')
+        plt.close()
 
     print(f'Part two: {maxScenicScore}')
     return # Return nothing, print results before this
