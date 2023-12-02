@@ -6,7 +6,7 @@ if [ ! -d "$1" ]; then
 import time
 
 def main():
-    with open("debug.txt", "r", encoding="UTF-8") as file:
+    with open(\"debug.txt\", \"r\", encoding=\"UTF-8\") as file:
         input_lines = file.readlines()
         st1 = time.time()
         solve_one(input_lines)
@@ -21,11 +21,11 @@ def main():
 
 def solve_one(input_lines):
 
-    print(f'Part one: {""}')
+    print(f'Part one: {\"\"}')
 
 def solve_two(input_lines):
 
-    print(f'Part two: {""}')
+    print(f'Part two: {\"\"}')
 
 def print_time(st, et):
     res = et - st
@@ -34,7 +34,7 @@ def print_time(st, et):
     return f'{res} seconds'
 
 
-if __name__ == "__main__":
+if __name__ == \"__main__\":
     main()
 " >> $1/solution.py
     echo "$1/ created!"
