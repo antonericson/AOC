@@ -40,7 +40,7 @@ def solve_one(schematic):
             set((coord[0], coord[1]) for coord in list(adjac(symbol)))
         )
 
-    for (number, coords) in numbers:
+    for number, coords in numbers:
         if any(coord in valid_coords for coord in coords):
             part_numbers.append(int(number))
     print(f"Part one: {sum(part_numbers)}")
@@ -57,8 +57,37 @@ def adjac(ele, sub=[]):
         )
 
 
-def solve_two(input_lines):
-    print(f'Part two: {""}')
+def solve_two(schematic):
+    gear_ratios = []
+    symbols = []
+    valid_coords = []
+    numbers = []
+    symbol_pattern = r"[*]"
+
+    for y, line in enumerate(schematic):
+        for symbol_matcher in re.finditer(symbol_pattern, line):
+            symbols.append((y, symbol_matcher.span()[0]))
+        for number_matcher in re.finditer(r"\d+", line):
+            number_coords = [(y, number_matcher.start())]
+
+            x = number_matcher.start() + 1
+            while x < number_matcher.end():
+                number_coords.append((y, x))
+                x += 1
+            numbers.append((number_matcher.group(), number_coords))
+    for symbol in symbols:
+        valid_coords.append(set((coord[0], coord[1]) for coord in list(adjac(symbol))))
+
+    for gear_coords in valid_coords:
+        gear_numbers = []
+        for number, coords in numbers:
+            if any(coord in gear_coords for coord in coords):
+                gear_numbers.append(number)
+        if len(gear_numbers) == 2:
+            gear_ratio = int(gear_numbers[0]) * int(gear_numbers[1])
+            gear_ratios.append(gear_ratio)
+
+    print(f"Part two: {sum(gear_ratios)}")
 
 
 def print_time(st, et):
