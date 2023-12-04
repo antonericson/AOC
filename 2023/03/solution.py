@@ -4,7 +4,7 @@ import re
 
 
 def main():
-    with open("debug.txt", "r", encoding="UTF-8") as file:
+    with open("input.txt", "r", encoding="UTF-8") as file:
         input_lines = file.readlines()
         st1 = time.time()
         solve_one(input_lines)
@@ -21,8 +21,8 @@ def solve_one(schematic):
     part_numbers = []
     symbols = []
     valid_coords = set()
-    numbers = {}
-    symbol_pattern = r"[^a-zA-Z0-9\s.]"
+    numbers = []
+    symbol_pattern = r"[^\w.\n]|[_]"
 
     for y, line in enumerate(schematic):
         for symbol_matcher in re.finditer(symbol_pattern, line):
@@ -34,23 +34,15 @@ def solve_one(schematic):
             while x < number_matcher.end():
                 number_coords.append((y, x))
                 x += 1
-            print("number_coords")
-            print(number_coords)
-            numbers[number_matcher.group()] = number_coords
+            numbers.append((number_matcher.group(), number_coords))
     for symbol in symbols:
-        print(list(adjac(symbol)))
         valid_coords = valid_coords.union(
             set((coord[0], coord[1]) for coord in list(adjac(symbol)))
         )
 
-    for number, coords in numbers.items():
+    for (number, coords) in numbers:
         if any(coord in valid_coords for coord in coords):
-            print([coord in valid_coords for coord in coords])
-            print(f'{number} is valid')
             part_numbers.append(int(number))
-        else:
-            print([coord in valid_coords for coord in coords])
-            print(f'{number} is NOT valid')
     print(f"Part one: {sum(part_numbers)}")
 
 
