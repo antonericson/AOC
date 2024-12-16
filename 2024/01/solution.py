@@ -18,16 +18,15 @@ def main():
 def solve_one(input_lines):
 
     # One-liner
-    print(sum([abs(int(sorted([left.strip().split("   ")[0] for left in input_lines])[i]) - int(sorted([right.strip().split("   ")[1] for right in input_lines])[i])) for i in range(len(input_lines))]))
+    one_line_result = sum([abs(int(sorted([left.strip().split("   ")[0] for left in input_lines])[i]) - int(sorted([right.strip().split("   ")[1] for right in input_lines])[i])) for i in range(len(input_lines))])
     
     # Cody :-)
-    print(sum(abs(a - b) for a, b in zip(sorted(int(line.split()[0]) for line in input_lines), sorted(int(line.split()[1]) for line in input_lines))))
+    cody_result = sum(abs(a - b) for a, b in zip(sorted(int(line.split()[0]) for line in input_lines), sorted(int(line.split()[1]) for line in input_lines)))
 
     # Initial solution
     total_distance = 0
     left_list = []
     right_list = []
-    
     
     for x, y in [line.strip().split("   ") for line in input_lines]:
         left_list.append(int(x))
@@ -35,14 +34,24 @@ def solve_one(input_lines):
     left_list.sort()
     right_list.sort()
     for i in range(len(left_list)):
-        tmp = abs(left_list[i] - right_list[i])
-        total_distance += tmp
+        total_distance += abs(left_list[i] - right_list[i])
         
     print(f'Part one: {total_distance}')
 
 def solve_two(input_lines):
-
-    print(f'Part two: {""}')
+     # Initial solution
+    similarity_score = 0
+    left_list = []
+    right_list = []
+    
+    for x, y in [line.strip().split("   ") for line in input_lines]:
+        left_list.append(int(x))
+        right_list.append(int(y))
+    
+    for i in left_list:
+        similarity_score += i * right_list.count(i)
+    
+    print(f'Part two: {similarity_score}')
 
 def print_time(st, et):
     res = et - st
